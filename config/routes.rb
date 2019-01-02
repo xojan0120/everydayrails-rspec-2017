@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :notes
     resources :tasks do
       member do
+        # toggle_project_task POST /projects/:project_id/tasks/:id/toggle(.:format) tasks#toggle
         post :toggle
       end
     end
