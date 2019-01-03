@@ -17,7 +17,10 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :projects#, only: [:index, :show, :create]
+    #resources :projects#, only: [:index, :show, :create]
+    resources :projects do
+      resources :tasks, only: [:index, :show]
+    end
   end
 
   root "home#index"
