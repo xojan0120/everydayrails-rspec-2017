@@ -28,6 +28,10 @@ group :development, :test do
   # guard関連
   gem 'guard'
   gem 'guard-rspec', require: false
+
+  # shoulda-matchers
+  gem 'shoulda-matchers',
+    git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
 
 # 開発環境のみで使用するgem

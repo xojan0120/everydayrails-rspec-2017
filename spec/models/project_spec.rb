@@ -35,14 +35,15 @@ RSpec.describe Project, type: :model do
     expect(project).to_not be_valid
   end
 
-  it "ユーザー単位では重複したプロジェクト名を許可しないこと" do
-    @user.projects.create(name: @project_name)
+  #it "ユーザー単位では重複したプロジェクト名を許可しないこと" do
+  #  @user.projects.create(name: @project_name)
 
-    new_project = @user.projects.build(name: @project_name)
+  #  new_project = @user.projects.build(name: @project_name)
 
-    new_project.valid?
-    expect(new_project.errors[:name]).to include("has already been taken")
-  end
+  #  new_project.valid?
+  #  expect(new_project.errors[:name]).to include("has already been taken")
+  #end
+  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id) }
 
   it "二人のユーザーが同じプロジェクト名を使うことは許可すること" do
     @user.projects.create(name: @project_name)

@@ -17,47 +17,51 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
-  it "名がなければ無効な状態であること" do
-    #user = User.new(first_name: nil)
-    user = FactoryBot.build(:user, first_name: nil)
-    user.valid?
-    expect(user.errors[:first_name]).to include("can't be blank")
-  end
+  #it "名がなければ無効な状態であること" do
+  #  #user = User.new(first_name: nil)
+  #  user = FactoryBot.build(:user, first_name: nil)
+  #  user.valid?
+  #  expect(user.errors[:first_name]).to include("can't be blank")
+  #end
+  it { is_expected.to validate_presence_of :first_name }
 
-  it "姓がなければ無効な状態であること" do
-    #user = User.new(last_name: nil)
-    user = FactoryBot.build(:user, last_name: nil)
-    user.valid?
-    expect(user.errors[:last_name]).to include("can't be blank")
-  end
+  #it "姓がなければ無効な状態であること" do
+  #  #user = User.new(last_name: nil)
+  #  user = FactoryBot.build(:user, last_name: nil)
+  #  user.valid?
+  #  expect(user.errors[:last_name]).to include("can't be blank")
+  #end
+  it { is_expected.to validate_presence_of :last_name }
 
-  it "メールアドレスがなければ無効な状態であること" do
-    #user = User.new(email: nil)
-    user = FactoryBot.build(:user, email: nil)
-    user.valid?
-    expect(user.errors[:email]).to include("can't be blank")
-  end
+  #it "メールアドレスがなければ無効な状態であること" do
+  #  #user = User.new(email: nil)
+  #  user = FactoryBot.build(:user, email: nil)
+  #  user.valid?
+  #  expect(user.errors[:email]).to include("can't be blank")
+  #end
+  it { is_expected.to validate_presence_of :email }
 
-  it "重複したメールアドレスなら無効な状態であること" do
-    #User.create(
-    #  first_name:   "Joe",
-    #  last_name:    "Tester",
-    #  email:        "tester@example.com",
-    #  password:   "dottle-nouveau-pavilion-tights-furze",
-    #)
-    FactoryBot.create(:user, email: "tester@example.com")
+  #it "重複したメールアドレスなら無効な状態であること" do
+  #  #User.create(
+  #  #  first_name:   "Joe",
+  #  #  last_name:    "Tester",
+  #  #  email:        "tester@example.com",
+  #  #  password:   "dottle-nouveau-pavilion-tights-furze",
+  #  #)
+  #  FactoryBot.create(:user, email: "tester@example.com")
 
-    #user = User.new(
-    #  first_name:   "Jane",
-    #  last_name:    "Tester",
-    #  email:        "tester@example.com",
-    #  password:   "dottle-nouveau-pavilion-tights-furze",
-    #)
-    user = FactoryBot.build(:user, email: "tester@example.com")
+  #  #user = User.new(
+  #  #  first_name:   "Jane",
+  #  #  last_name:    "Tester",
+  #  #  email:        "tester@example.com",
+  #  #  password:   "dottle-nouveau-pavilion-tights-furze",
+  #  #)
+  #  user = FactoryBot.build(:user, email: "tester@example.com")
 
-    user.valid?
-    expect(user.errors[:email]).to include("has already been taken")
-  end
+  #  user.valid?
+  #  expect(user.errors[:email]).to include("has already been taken")
+  #end
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
 
   it "ユーザーのフルネームを文字列として返すこと" do
     #user = User.new(

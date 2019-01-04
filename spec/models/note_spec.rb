@@ -56,5 +56,23 @@ RSpec.describe Note, type: :model do
       end
     end
   end
+
+  it "名前の取得をメモを作成したユーザに委譲すること" do
+    # doubleだと検証無し(User#nameメソッドが定義されているかどうか)だが、
+    # instance_doubleだと検証有りになる。なお、instance_doubleを使うときは
+    # 第一引数の"user"は"User"にしてUserクラスであることを教える必要がある。
+    
+    #Userオブジェクトのインスタンスはnameメソッドで"Fake User"を返す
+    #user = double("user", name: "Fake User")
+    user = instance_double("User", name: "Fake User")
+
+    note = Note.new
+
+    # noteオブジェクトに、:userメソッドが呼ばれたら、userオブジェクトを返すことを許可する
+    allow(note).to receive(:user).and_return(user)
+
+    # noteオブジェクトのuser_nameメソッドは、"Fake User"と同じである
+    expect(note.user_name).to eq "Fake User"
+  end
   
 end
