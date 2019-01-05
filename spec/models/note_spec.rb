@@ -2,14 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Note, type: :model do
 
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project, owner: user) }
+
+  it { is_expected.to have_attached_file(:attachment) }
+
   it "ファクトリで関連するデータを生成する" do
     note = FactoryBot.create(:note)
     puts "This note's project is #{note.project.inspect}"
     puts "This note's project is #{note.user.inspect}"
   end
-
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project, owner: user) }
 
   it "ユーザー、プロジェクト、メッセージがあれば有効な状態であること" do
     note = Note.new(
@@ -74,5 +76,5 @@ RSpec.describe Note, type: :model do
     # noteオブジェクトのuser_nameメソッドは、"Fake User"と同じである
     expect(note.user_name).to eq "Fake User"
   end
-  
+
 end

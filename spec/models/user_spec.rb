@@ -80,4 +80,15 @@ RSpec.describe User, type: :model do
     expect(true).to be_truthy
   end
 
+  it "アカウントが作成されたときにウェルカムメールを送信すること" do
+    # UserMailerにwelcome_emailメソッドとdeliver_laterメソッドを許可する
+    allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
+
+    # userオブジェクトを作成
+    user = FactoryBot.create(:user)
+
+    # UserMailerがwelcome_emailメソッドを実行すると、userが作成されることを検証
+    expect(UserMailer).to have_received(:welcome_email).with(user)
+  end
+
 end

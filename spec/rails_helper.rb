@@ -5,10 +5,11 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-# Add additional requires below this line. Rails is not loaded until this point!
-
 # Cpybara読み込み
 require 'capybara/rspec'
+require 'paperclip/matchers'
+# Add additional requires below this line. Rails is not loaded until this point!
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -62,6 +63,14 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include RequestSpecHelper, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :feature
+
+  # テストスイートの実行が終わったらアップロードされたファイルを削除する
+  config.after(:suite) do
+    FileUtils.rm_rf(Dir["#{Rails.root}/spec/test_uploads/"])
+  end
+
+  # PaperclipのShoulda Matchersサポートを追加ｓる
+  config.include Paperclip::Shoulda::Matchers
 end
 
 Shoulda::Matchers.configure do |config|
