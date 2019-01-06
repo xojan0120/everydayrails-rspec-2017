@@ -46,22 +46,23 @@ RSpec.feature "Projects", type: :feature do
     project = FactoryBot.create(:project, owner: user, completed: false)
     # ユーザはログインしている
     sign_in user
-    # ユーザがプロジェクト画面を開き、
+    # ユーザがプロジェクト画面を開く。
     visit project_path(project)
-    expect(page).to_not have_content("Completed")
+    # 完了ボタンがある。
+    expect(page).to have_button("Complete")
 
     # 完了ボタンをクリックすると、
     click_button "Complete"
     # プロジェクトは完了済みとしてマークされる
     expect(project.reload.completed?).to be true
     expect(page).to have_content "Congratulations, this project is complete!"
-    expect(page).to have_content "Completed"
 
-    # 完了ボタンは消えているか
-    expect(page).to_not have_button("Complete")
+    # 完了ボタンが無くなり、未完了ボタンがある。
+    expect(page).to_not have_button "Complete"
+    expect(page).to     have_button "Incomplete"
   end
   
-  scenario "ユーザはプロジェクトを未完了にする", focus: true do
+  scenario "ユーザはプロジェクトを未完了にする" do
     # 完了済みプロジェクトを持ったユーザを準備する
     user = FactoryBot.create(:user)
     project = FactoryBot.create(:project, owner: user, completed: true)
@@ -76,7 +77,7 @@ RSpec.feature "Projects", type: :feature do
     click_button "Incomplete"
     # プロジェクトは未完了としてマークされる
     expect(project.reload.completed?).to be false
-    expect(page).to have_content "Congratulations, this project is complete!"
+    expect(page).to have_content "Congratulations, this project is incomplete!"
 
     # 未完了ボタンが無くなり、完了ボタンがある。
     expect(page).to_not have_button "Incomplete"

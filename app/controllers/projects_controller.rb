@@ -1,11 +1,12 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :complete]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :complete, :incomplete]
   before_action :project_owner?, except: [:index, :all, :new, :create]
 
   # GET /projects
   # GET /projects.json
   def index
     @projects = current_user.projects.where(completed: false)
+    @all_flag = false
   end
 
   def all
@@ -73,6 +74,14 @@ class ProjectsController < ApplicationController
       redirect_to @project, notice: "Congratulations, this project is complete!"
     else
       redirect_to @project, alert: "Unable to complete project."
+    end
+  end
+
+  def incomplete
+    if @project.update_attributes(completed: false)
+      redirect_to @project, notice: "Congratulations, this project is incomplete!"
+    else
+      redirect_to @project, alert: "Unable to incomplete project."
     end
   end
 
