@@ -3,6 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Project #{n}" }
     description "A test project."
     due_on 1.week.from_now
+    completed false
     # ownerファクトリ(本名はuserファクトリ)と関連する
     association :owner
     

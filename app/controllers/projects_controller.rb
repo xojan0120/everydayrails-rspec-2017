@@ -1,11 +1,17 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :complete]
-  before_action :project_owner?, except: [:index, :new, :create]
+  before_action :project_owner?, except: [:index, :all, :new, :create]
 
   # GET /projects
   # GET /projects.json
   def index
+    @projects = current_user.projects.where(completed: false)
+  end
+
+  def all
     @projects = current_user.projects
+    @all_flag = true
+    render :index
   end
 
   # GET /projects/1

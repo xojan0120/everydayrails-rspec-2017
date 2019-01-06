@@ -6,7 +6,7 @@ RSpec.describe "Projects", type: :request do
       @user = FactoryBot.create(:user)
     end
 
-    context "有効な属性値として" do
+    context "有効な属性値の場合" do
       it "プロジェクトを追加できること" do
         project_params = FactoryBot.attributes_for(:project)
         sign_in @user
@@ -25,5 +25,40 @@ RSpec.describe "Projects", type: :request do
         }.to_not change(@user.projects, :count)
       end
     end
+
+    it "未完了のプロジェクトを取得できること" do
+      FactoryBot.create(:project,
+                         name: "未完了ぷろじぇくと",
+                         owner: @user,
+                         completed: false)
+      FactoryBot.create(:project,
+                         name: "完了済みぷろじぇくと",
+                         owner: @user,
+                         completed: true)
+      sign_in @user
+      get projects_path
+      aggregate_failures {
+        expect(response.body).to     include("未完了ぷろじぇくと")
+        expect(response.body).to_not include("完了済みぷろじぇくと")
+      }
+    end
+
+    it "未完了を含む全てのプロジェクトを取得できること" do
+      FactoryBot.create(:project,
+                         name: "未完了ぷろじぇくと",
+                         owner: @user,
+                         completed: false)
+      FactoryBot.create(:project,
+                         name: "完了済みぷろじぇくと",
+                         owner: @user,
+                         completed: true)
+      sign_in @user
+      get all_projects_path
+      aggregate_failures {
+        expect(response.body).to include("未完了ぷろじぇくと")
+        expect(response.body).to include("完了済みぷろじぇくと")
+      }
+    end
+
   end
 end
