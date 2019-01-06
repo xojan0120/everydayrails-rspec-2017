@@ -22,6 +22,9 @@
 
 .byebug_history
 
+# Ignore Spring files.
+/spring/*.pid
+
 # Paperclipのアップロードファイルを無視
 /public/system
 /spec/test_uploads
@@ -30,3 +33,6 @@
 /spec/cassettes
 
 .ruby-version
+
+# vimのスワップファイルを無視する
+*.swp
