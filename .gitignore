@@ -22,8 +22,11 @@
 
 .byebug_history
 
-# Ignore uploads from Paperclip
+# Paperclipのアップロードファイルを無視
 /public/system
 /spec/test_uploads
+
+# VCPのカセットファイルを無視
+/spec/cassettes
 
 .ruby-version

@@ -32,6 +32,10 @@ group :development, :test do
   # shoulda-matchers
   gem 'shoulda-matchers',
     git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+
+  # VCR関連
+  gem 'vcr'
+  gem 'webmock'
 end
 
 # 開発環境のみで使用するgem

@@ -84,11 +84,18 @@ RSpec.describe User, type: :model do
     # UserMailerにwelcome_emailメソッドとdeliver_laterメソッドを許可する
     allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
 
-    # userオブジェクトを作成
+    # userオブジェクトを作成(Userモデルのafter_createコールバックのsend_welcome_email
+    # メソッドの内部でwelcome_emailメソッドが呼ばれる)
     user = FactoryBot.create(:user)
 
-    # UserMailerがwelcome_emailメソッドを実行すると、userが作成されることを検証
+    # UserMailer.welcome_emailメソッドが引数userで実行されているか検証
     expect(UserMailer).to have_received(:welcome_email).with(user)
   end
 
+  it "ジオコーディングを実行すること", vcr: true do
+    user = FactoryBot.create(:user, last_sign_in_ip: "161.185.207.20")
+    expect {
+      user.geocode
+    }.to change(user, :location).from(nil).to("Brooklyn, New York, US")
+  end
 end
