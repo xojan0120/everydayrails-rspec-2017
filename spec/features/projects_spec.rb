@@ -62,24 +62,6 @@ RSpec.feature "Projects", type: :feature do
     expect(page).to     have_button "Incomplete"
   end
 
-  scenario "ユーザがプロジェクトの完了処理に失敗すると失敗のメッセージを表示する" do
-    # 未完了プロジェクトを持ったユーザを準備する
-    user = FactoryBot.create(:user)
-    project = FactoryBot.create(:project, owner: user, completed: false)
-    # ユーザはログインしている
-    sign_in user
-    # ユーザがプロジェクト画面を開く。
-    visit project_path(project)
-    # 完了ボタンがある。
-    expect(page).to have_button("Complete")
-    # Projectインスタンスのcompleteメソッドをスタブ化して必ずfalseが返るようにする。
-    allow_any_instance_of(Project).to receive(:complete).and_return(false)
-    # 完了ボタンをクリックする。
-    click_button "Complete"
-    # 完了処理失敗のメッセージが表示される。
-    expect(page).to have_content "Unable to complete project."
-  end
-  
   scenario "ユーザはプロジェクトを未完了にする" do
     # 完了済みプロジェクトを持ったユーザを準備する
     user = FactoryBot.create(:user)
@@ -102,6 +84,24 @@ RSpec.feature "Projects", type: :feature do
     expect(page).to     have_button "Complete"
   end
 
+  scenario "ユーザがプロジェクトの完了処理に失敗すると失敗のメッセージを表示する" do
+    # 未完了プロジェクトを持ったユーザを準備する
+    user = FactoryBot.create(:user)
+    project = FactoryBot.create(:project, owner: user, completed: false)
+    # ユーザはログインしている
+    sign_in user
+    # ユーザがプロジェクト画面を開く。
+    visit project_path(project)
+    # 完了ボタンがある。
+    expect(page).to have_button("Complete")
+    # Projectインスタンスのcompleteメソッドをスタブ化して必ずfalseが返るようにする。
+    allow_any_instance_of(Project).to receive(:complete).and_return(false)
+    # 完了ボタンをクリックする。
+    click_button "Complete"
+    # 完了処理失敗のメッセージが表示される。
+    expect(page).to have_content "Unable to complete project."
+  end
+  
   scenario "完了済みのプロジェクトはユーザのダッシュボードに表示しない" do
     # 未完了と完了プロジェクトを持ったユーザを準備する
     user = FactoryBot.create(:user)
