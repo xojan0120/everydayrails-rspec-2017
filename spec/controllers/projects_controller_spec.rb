@@ -302,7 +302,7 @@ RSpec.describe ProjectsController, type: :controller do
 
   describe "#complete" do
     context "認証済みのユーザとして" do
-      let!(:project) { FactoryBot.create(:project, completed: nil) }
+      let!(:project) { FactoryBot.create(:project, completed: false) }
 
       before do
         sign_in project.owner
@@ -310,7 +310,10 @@ RSpec.describe ProjectsController, type: :controller do
 
       describe "成功しないプロジェクトの完了" do
         before do
-          allow_any_instance_of(Project).to receive(:update_attributes).with(completed: true).and_return(false)
+          #allow_any_instance_of(Project).to receive(:update_attributes).with(completed: true).and_return(false)
+
+          # Projectモデル全てのインスタンスのcompleteメソッドをスタブ化し常にfalseを返す。
+          allow_any_instance_of(Project).to receive(:complete).and_return(false)
         end
 
         it "プロジェクト画面にリダイレクトすること" do

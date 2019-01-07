@@ -8,4 +8,12 @@ class Project < ApplicationRecord
   def late?
     due_on.in_time_zone < Date.current.in_time_zone
   end
+
+  def complete
+    update_attributes(completed: true)
+  end
+
+  def incomplete
+    update_attributes(completed: false)
+  end
 end
