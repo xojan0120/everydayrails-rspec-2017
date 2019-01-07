@@ -72,8 +72,8 @@ RSpec.feature "Projects", type: :feature do
     visit project_path(project)
     # 完了ボタンがある。
     expect(page).to have_button("Complete")
-    # Projectインスタンスのcompleteメソッドをスタブ化して必ずfalseが返るようにする。
-    allow_any_instance_of(Project).to receive(:complete).and_return(false)
+    # StatusOperationモデルのクラスメソッドcompleteをスタブ化して必ずfalseが返るようにする。
+    allow(StatusOperation).to receive(:complete).and_return(false)
     # 完了ボタンをクリックする。
     click_button "Complete"
     # 完了処理失敗のメッセージが表示される。

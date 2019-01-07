@@ -70,7 +70,7 @@ class ProjectsController < ApplicationController
   end
 
   def complete
-    if @project.complete
+    if StatusOperation.complete(@project)
       redirect_to @project, notice: "Congratulations, this project is complete!"
     else
       redirect_to @project, alert: "Unable to complete project."
@@ -78,7 +78,7 @@ class ProjectsController < ApplicationController
   end
 
   def incomplete
-    if @project.incomplete
+    if StatusOperation.incomplete(@project)
       redirect_to @project, notice: "Congratulations, this project is incomplete!"
     else
       redirect_to @project, alert: "Unable to incomplete project."

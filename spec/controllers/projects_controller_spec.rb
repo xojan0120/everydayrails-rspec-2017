@@ -312,8 +312,8 @@ RSpec.describe ProjectsController, type: :controller do
         before do
           #allow_any_instance_of(Project).to receive(:update_attributes).with(completed: true).and_return(false)
 
-          # Projectモデル全てのインスタンスのcompleteメソッドをスタブ化し常にfalseを返す。
-          allow_any_instance_of(Project).to receive(:complete).and_return(false)
+          # StatusOperationモデルのクラスメソッドcompleteをスタブ化し常にfalseを返す。
+          allow(StatusOperation).to receive(:complete).and_return(false)
         end
 
         it "プロジェクト画面にリダイレクトすること" do

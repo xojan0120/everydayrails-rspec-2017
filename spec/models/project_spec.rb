@@ -75,17 +75,4 @@ RSpec.describe Project, type: :model do
     project = FactoryBot.create(:project, :with_notes)
     expect(project.notes.length).to eq 5
   end
-
-  describe "プロジェクトステータス" do
-    it "完了にする" do
-      project = FactoryBot.create(:project)
-      project.complete
-      expect(project.completed).to be_truthy
-    end
-    it "未完了にする" do
-      project = FactoryBot.create(:project, completed: true)
-      project.incomplete
-      expect(project.completed).to be_falsey
-    end
-  end
 end
